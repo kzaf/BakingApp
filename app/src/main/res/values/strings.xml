@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">BakingApp</string>
+    <string name="cake_image_card">Cake Image</string>
+    <string name="cake_name_card">Cake Name</string>
+    <string name="error_text_main_acrivity">An error occured, please refresh</string>
+</resources>
