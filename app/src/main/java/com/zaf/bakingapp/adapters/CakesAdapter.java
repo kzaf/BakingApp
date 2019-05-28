@@ -26,7 +26,7 @@ public class CakesAdapter extends RecyclerView.Adapter<CakesAdapter.CakesViewHol
     @NonNull
     @Override
     public CakesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cake_card_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cake_item, viewGroup, false);
         return new CakesViewHolder(view);
     }
 
@@ -37,7 +37,7 @@ public class CakesAdapter extends RecyclerView.Adapter<CakesAdapter.CakesViewHol
 
         switch (cakeList.get(position).getName()){
             case "Nutella Pie":
-                cakesViewHolder.mCakePoster.setImageResource(R.drawable.nutellapie_poster_);
+                cakesViewHolder.mCakePoster.setImageResource(R.drawable.nutellapie_poster);
                 break;
             case "Brownies":
                 cakesViewHolder.mCakePoster.setImageResource(R.drawable.brownies_poster);
