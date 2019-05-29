@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.zaf.bakingapp.DetailsScreenActivity;
 import com.zaf.bakingapp.R;
+import com.zaf.bakingapp.VideoActivity;
 import com.zaf.bakingapp.adapters.IngredientsAdapter;
 import com.zaf.bakingapp.adapters.StepsAdapter;
 import com.zaf.bakingapp.models.Ingredients;
@@ -46,6 +48,20 @@ public class IngredientsAndStepsFragment extends Fragment implements StepsAdapte
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        populateRecyclerViews();
+    }
+
+    @Override
+    public void onListItemClick(int item) {
+        Toast.makeText(getContext(), "Item " + item + " clicked", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getActivity(), VideoActivity.class);
+        intent.putExtra("Step", stepsArrayList.get(item));
+
+        startActivity(intent);
+    }
+
+    private void populateRecyclerViews() {
         Intent intent = getActivity().getIntent();
         ingredientsArrayList = intent.getParcelableArrayListExtra("ingredients");
         stepsArrayList = intent.getParcelableArrayListExtra("steps");
@@ -55,11 +71,5 @@ public class IngredientsAndStepsFragment extends Fragment implements StepsAdapte
 
         recyclerViewSteps.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerViewSteps.setAdapter(new StepsAdapter(this, stepsArrayList));
-    }
-
-    @Override
-    public void onListItemClick(int item) {
-        Toast.makeText(getContext(), "Item " + item + " clicked", Toast.LENGTH_SHORT).show();
-        //TODO: When selecting a step
     }
 }

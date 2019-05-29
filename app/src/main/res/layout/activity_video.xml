@@ -5,4 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".VideoActivity">
 
+    <fragment
+        android:id="@+id/videos_fragment"
+        android:name="com.zaf.bakingapp.fragments.VideoFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>

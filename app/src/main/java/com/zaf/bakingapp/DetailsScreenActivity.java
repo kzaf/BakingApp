@@ -21,19 +21,16 @@ public class DetailsScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_screen);
 
-        if(savedInstanceState == null){
-            Intent intent = getIntent();
-            Cake selectedCake = intent.getParcelableExtra("Cake");
+        Intent intent = getIntent();
+        Cake selectedCake = intent.getParcelableExtra("Cake");
 
-            ArrayList<Ingredients> ingredientsArrayList = new ArrayList<>(selectedCake.getIngredients());
-            getIntent().putExtra("ingredients", ingredientsArrayList);
+        ArrayList<Ingredients> ingredientsArrayList = new ArrayList<>(selectedCake.getIngredients());
+        getIntent().putExtra("ingredients", ingredientsArrayList);
 
-            ArrayList<Steps> stepsArrayList = new ArrayList<>(selectedCake.getSteps());
-            getIntent().putExtra("steps", stepsArrayList);
+        ArrayList<Steps> stepsArrayList = new ArrayList<>(selectedCake.getSteps());
+        getIntent().putExtra("steps", stepsArrayList);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            IngredientsAndStepsFragment ingredientsAndStepsFragment= new IngredientsAndStepsFragment();
-
-        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        IngredientsAndStepsFragment ingredientsAndStepsFragment= new IngredientsAndStepsFragment();
     }
 }
