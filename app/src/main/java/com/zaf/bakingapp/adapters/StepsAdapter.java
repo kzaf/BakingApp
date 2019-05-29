@@ -32,9 +32,9 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull StepsViewHolder stepsViewHolder, int position) {
-        stepsViewHolder.mStepNumber.setText(stepsList.get(position).getId());
-        stepsViewHolder.mStepDescriptionShort.setText(stepsList.get(position).getDescription());
-        if(stepsList.get(position).getVideoUrl().equals("")){
+        stepsViewHolder.mStepNumber.setText(String.valueOf(stepsList.get(position).getId()));
+        stepsViewHolder.mStepDescriptionShort.setText(stepsList.get(position).getShortDescription());
+        if(stepsList.get(position).getVideoURL().equals("")){
             stepsViewHolder.mStepHasVideo.setVisibility(View.INVISIBLE);
         }
     }

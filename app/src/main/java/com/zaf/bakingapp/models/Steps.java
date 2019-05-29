@@ -3,10 +3,13 @@ package com.zaf.bakingapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Steps implements Parcelable {
     private int id;
     private String shortDescription;
     private String description;
+    @SerializedName("videoURL")
     private String videoUrl;
     private String thumbnailUrl;
 
@@ -62,12 +65,12 @@ public class Steps implements Parcelable {
         this.description = description;
     }
 
-    public String getVideoUrl() {
+    public String getVideoURL() {
         return videoUrl;
     }
 
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+    public void setVideoURL(String videoURL) {
+        this.videoUrl = videoURL;
     }
 
     public String getThumbnailUrl() {

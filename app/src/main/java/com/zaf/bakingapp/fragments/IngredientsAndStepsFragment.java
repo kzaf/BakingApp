@@ -10,18 +10,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.zaf.bakingapp.R;
 import com.zaf.bakingapp.adapters.IngredientsAdapter;
+import com.zaf.bakingapp.adapters.StepsAdapter;
 import com.zaf.bakingapp.models.Ingredients;
+import com.zaf.bakingapp.models.Steps;
 
 import java.util.ArrayList;
 
-public class IngredientsAndStepsFragment extends Fragment {
+public class IngredientsAndStepsFragment extends Fragment implements StepsAdapter.StepsAdapterListItemClickListener {
 
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
+    RecyclerView recyclerViewIngredients;
+    RecyclerView recyclerViewSteps;
+
     ArrayList<Ingredients> ingredientsArrayList;
+    ArrayList<Steps> stepsArrayList;
 
     public IngredientsAndStepsFragment() { }
 
@@ -31,7 +36,8 @@ public class IngredientsAndStepsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_ingredients_and_steps, container, false);
 
-        recyclerView = rootView.findViewById(R.id.ingredients_recycler_view);
+        recyclerViewIngredients = rootView.findViewById(R.id.ingredients_recycler_view);
+        recyclerViewSteps = rootView.findViewById(R.id.steps_recycler_view);
 
         return rootView;
     }
@@ -42,9 +48,18 @@ public class IngredientsAndStepsFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         ingredientsArrayList = intent.getParcelableArrayListExtra("ingredients");
+        stepsArrayList = intent.getParcelableArrayListExtra("steps");
 
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new IngredientsAdapter(ingredientsArrayList));
+        recyclerViewIngredients.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewIngredients.setAdapter(new IngredientsAdapter(ingredientsArrayList));
+
+        recyclerViewSteps.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewSteps.setAdapter(new StepsAdapter(this, stepsArrayList));
+    }
+
+    @Override
+    public void onListItemClick(int item) {
+        Toast.makeText(getContext(), "Item " + item + " clicked", Toast.LENGTH_SHORT).show();
+        //TODO: When selecting a step
     }
 }

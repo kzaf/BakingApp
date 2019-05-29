@@ -8,13 +8,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Cake implements Parcelable {
-    @SerializedName("name")
     private String name;
-    @SerializedName("id")
     private int id;
-    @SerializedName("ingredients")
     private List<Ingredients> ingredients;
-    @SerializedName("steps")
     private List<Steps> steps;
 
     public Cake(String name, int id, List<Ingredients> ingredients, List<Steps> steps) {
