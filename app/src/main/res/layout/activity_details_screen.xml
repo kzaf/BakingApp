@@ -4,18 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DetailsScreen">
+    tools:context=".DetailsScreenActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/ingredients_recycler_view"
+    <fragment
+        android:id="@+id/ingredients_fragment"
+        android:name="com.zaf.bakingapp.fragments.IngredientsAndStepsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/steps_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    </fragment>
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,9 +17,12 @@ import android.widget.Toast;
 
 import com.zaf.bakingapp.adapters.CakesAdapter;
 import com.zaf.bakingapp.models.Cake;
+import com.zaf.bakingapp.models.Ingredients;
+import com.zaf.bakingapp.models.Steps;
 import com.zaf.bakingapp.network.GetDataService;
 import com.zaf.bakingapp.network.RetrofitClientInstance;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
     private static final String TAG = "Main Activity";
     ProgressDialog progressDialog;
     TextView mErrorDisplay;
+    private ArrayList<Cake> cakeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
             public void onResponse(Call<List<Cake>> call, Response<List<Cake>> response) {
                 progressDialog.dismiss();
                 generateCakeList(response.body());
+                if (response.body() != null) {
+                    cakeList = new ArrayList<>(response.body());
+                }
             }
 
             @Override
@@ -86,7 +94,10 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
 
     @Override
     public void onListItemClick(int item) {
-        //TODO: Intent to new Activity
 
+        Intent intent = new Intent(this, DetailsScreenActivity.class);
+        intent.putExtra("Cake", cakeList.get(item));
+
+        startActivity(intent);
     }
 }

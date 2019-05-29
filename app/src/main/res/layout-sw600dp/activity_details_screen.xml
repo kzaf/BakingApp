@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    tools:context=".DetailsScreenActivity">
+
+    <!--
+    This layout is a two-pane layout for the master/detail flow.
+    -->
+
+    <fragment
+        android:id="@+id/ingredients_and_steps_fragment"
+        android:name="com.zaf.bakingapp.fragments.IngredientsAndStepsFragment"
+        android:layout_width="400dp"
+        android:layout_height="match_parent" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
+
+    <fragment
+        android:id="@+id/videos_fragment"
+        android:name="com.zaf.bakingapp.fragments.IngredientsAndStepsFragment"
+        android:layout_width="400dp"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
