@@ -46,28 +46,38 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
         stepsArrayList = new ArrayList<>(selectedCake.getSteps());
 
         if (findViewById(R.id.videos_fragment) == null){ // Phone
+
             isTablet = false;
+
             populateRecyclerViews();
+
         }else{ // Tablet
+
             isTablet = true;
 
-            getIntent().putExtra("StepsArray", stepsArrayList);
-            getIntent().putExtra("StepNumber", String.valueOf(stepsArrayList.get(0).getId()));
-
-            mShortDescription = findViewById(R.id.video_short_description);
-            mDescription = findViewById(R.id.video_description);
-            mStepNumber = findViewById(R.id.step_number);
-
-            Steps selectedStep = stepsArrayList.get(stepsArrayList.get(0).getId());
-
-            mShortDescription.setText(selectedStep.getShortDescription());
-            mDescription.setText(selectedStep.getDescription());
-            mStepNumber.setText(selectedStep.getId() + "/" + (stepsArrayList.size() - 1));
-
-            hideButtonsWhenLargeScreen();
-
             populateRecyclerViews();
+            populateVideoFragment(stepsArrayList, String.valueOf(stepsArrayList.get(0).getId()));
+
         }
+    }
+
+    private void populateVideoFragment(ArrayList<Steps> stepsArrayList, String stepIndex) {
+
+        getIntent().putExtra("StepsArray", stepsArrayList);
+        getIntent().putExtra("StepNumber", stepIndex);
+
+        mShortDescription = findViewById(R.id.video_short_description);
+        mDescription = findViewById(R.id.video_description);
+        mStepNumber = findViewById(R.id.step_number);
+
+        Steps selectedStep = stepsArrayList.get(stepsArrayList.get(0).getId());
+
+        mShortDescription.setText(selectedStep.getShortDescription());
+        mDescription.setText(selectedStep.getDescription());
+        mStepNumber.setText(selectedStep.getId() + "/" + (stepsArrayList.size() - 1));
+
+        hideButtonsWhenLargeScreen();
+
     }
 
     private void populateRecyclerViews() {
@@ -98,7 +108,11 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
             FragmentManager fragmentManager = getSupportFragmentManager();
             VideoFragment videoFragment = new VideoFragment();
 
-            fragmentManager.beginTransaction().replace(R.id.videos_fragment, videoFragment).commit();
+            populateVideoFragment(stepsArrayList, String.valueOf(item));
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.videos_fragment, videoFragment)
+                    .commit();
         }
 
     }

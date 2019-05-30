@@ -99,13 +99,15 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initializeFields();
-    }
-
-    private void initializeFields() {
         Intent intent = getActivity().getIntent();
         stepsArray = intent.getParcelableArrayListExtra("StepsArray");
         currentStep = Integer.parseInt(intent.getStringExtra("StepNumber"));
+
+        initializeFields(stepsArray, currentStep);
+    }
+
+    public void initializeFields(ArrayList<Steps> stepsArray, int currentStep) {
+
         allSteps = stepsArray.size() - 1;
 
         Steps selectedStep = stepsArray.get(currentStep);
