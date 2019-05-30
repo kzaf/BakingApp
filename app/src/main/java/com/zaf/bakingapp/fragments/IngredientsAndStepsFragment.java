@@ -53,10 +53,9 @@ public class IngredientsAndStepsFragment extends Fragment implements StepsAdapte
 
     @Override
     public void onListItemClick(int item) {
-        Toast.makeText(getContext(), "Item " + item + " clicked", Toast.LENGTH_SHORT).show();
-
         Intent intent = new Intent(getActivity(), VideoActivity.class);
-        intent.putExtra("Step", stepsArrayList.get(item));
+        intent.putExtra("StepsArray", stepsArrayList);
+        intent.putExtra("StepNumber", String.valueOf(item));
 
         startActivity(intent);
     }

@@ -11,6 +11,7 @@ public class Steps implements Parcelable {
     private String description;
     @SerializedName("videoURL")
     private String videoUrl;
+    @SerializedName("thumbnailURL")
     private String thumbnailUrl;
 
     public Steps(int id, String shortDescription, String description, String videoUrl, String thumbnailUrl) {

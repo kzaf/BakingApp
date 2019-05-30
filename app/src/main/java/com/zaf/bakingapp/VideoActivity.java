@@ -16,6 +16,7 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        getIntent().putExtra("selectedStep", getIntent().getParcelableExtra("Step"));
+        getIntent().putExtra("StepsArray", getIntent().getParcelableArrayListExtra("StepsArray"));
+        getIntent().putExtra("StepNumber", getIntent().getStringExtra("StepNumber"));
     }
 }

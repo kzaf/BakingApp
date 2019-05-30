@@ -23,6 +23,9 @@
         <ImageButton android:id="@id/exo_pause"
             style="@style/ExoMediaButton.Pause"/>
 
+        <ImageButton android:id="@id/exo_prev"
+            style="@style/ExoMediaButton.Next"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -58,6 +61,15 @@
             android:paddingRight="4dp"
             android:includeFontPadding="false"
             android:textColor="#FFBEBEBE"/>
+
+        <ImageView
+            android:id="@+id/exo_fullscreen_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_fullscreen_expand" />
 
     </LinearLayout>
 
