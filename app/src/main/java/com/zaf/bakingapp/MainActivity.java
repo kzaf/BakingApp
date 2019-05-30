@@ -75,13 +75,9 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
         RecyclerView recyclerView = findViewById(R.id.cakeListRecyclerView);
         CakesAdapter adapter = new CakesAdapter(this, cakeList);
         RecyclerView.LayoutManager layoutManager;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // In landscape
-            layoutManager = new GridLayoutManager(MainActivity.this, calculateNoOfColumns(this));
-        } else {
-            // In portrait
-            layoutManager = new LinearLayoutManager(MainActivity.this);
-        }
+
+        layoutManager = new GridLayoutManager(MainActivity.this, calculateNoOfColumns(this));
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }

@@ -54,8 +54,6 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
     private Button nextButton;
     private Button previousButton;
     private ArrayList<Steps> stepsArray;
-    private long exoPlayerPosition;
-    private boolean exoPlayerPlayWhenReady;
     private int currentStep;
     private int allSteps;
     private boolean isLandscape;
@@ -101,9 +99,13 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        initializeFields();
+    }
+
+    private void initializeFields() {
         Intent intent = getActivity().getIntent();
-        currentStep = Integer.parseInt(intent.getStringExtra("StepNumber"));
         stepsArray = intent.getParcelableArrayListExtra("StepsArray");
+        currentStep = Integer.parseInt(intent.getStringExtra("StepNumber"));
         allSteps = stepsArray.size() - 1;
 
         Steps selectedStep = stepsArray.get(currentStep);
