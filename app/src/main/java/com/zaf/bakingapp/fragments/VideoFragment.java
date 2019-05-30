@@ -165,7 +165,6 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
         }else{
             mExoPlayer.stop();
             Intent nextStepIntent = new Intent(getActivity(), VideoActivity.class);
-            //nextStepIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             nextStepIntent.putExtra("StepNumber", String.valueOf(++currentStep));
             nextStepIntent.putExtra("StepsArray", stepsArray);
             getActivity().finish();
@@ -180,7 +179,6 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
         }else{
             mExoPlayer.stop();
             Intent nextStepIntent = new Intent(getActivity(), VideoActivity.class);
-            //nextStepIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             nextStepIntent.putExtra("StepNumber", String.valueOf(--currentStep));
             nextStepIntent.putExtra("StepsArray", stepsArray);
             getActivity().finish();
