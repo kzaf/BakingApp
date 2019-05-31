@@ -25,11 +25,6 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
     private ArrayList<Steps> stepsArrayList;
     private RecyclerView recyclerViewIngredients;
     private RecyclerView recyclerViewSteps;
-    private TextView mShortDescription;
-    private TextView mDescription;
-    private TextView mStepNumber;
-    private Button nextButton;
-    private Button previousButton;
 
     private boolean isTablet;
 
@@ -47,26 +42,21 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
         ingredientsArrayList = new ArrayList<>(selectedCake.getIngredients());
         stepsArrayList = new ArrayList<>(selectedCake.getSteps());
 
+        populateRecyclerViews();
+
         if (findViewById(R.id.videos_fragment_layout) == null){ // Phone
-
             isTablet = false;
-
-            populateRecyclerViews();
-
         }else{ // Tablet
-
             isTablet = true;
-
-            populateRecyclerViews();
-            populateVideoFragment(stepsArrayList, String.valueOf(stepsArrayList.get(0).getId()), true);
-
+            if (savedInstanceState == null){
+                populateVideoFragment(stepsArrayList, String.valueOf(stepsArrayList.get(0).getId()), true);
+            }
         }
     }
 
     private void populateVideoFragment(ArrayList<Steps> stepsArrayList, String stepIndex, boolean isFirstTime) {
 
         VideoFragment videoFragment = new VideoFragment();
-
         videoFragment.callVideoFragment(stepsArrayList, Integer.parseInt(stepIndex), true);
 
         if(isFirstTime){

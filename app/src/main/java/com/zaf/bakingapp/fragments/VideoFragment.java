@@ -1,6 +1,5 @@
 package com.zaf.bakingapp.fragments;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
@@ -9,13 +8,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +54,11 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        if (savedInstanceState != null){
+            mStepsArray = savedInstanceState.getParcelableArrayList("steps_array");
+            mCurrentStep = savedInstanceState.getInt("current_step");
+        }
 
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
 
@@ -102,14 +104,14 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
             nextButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    nextButton();
+                    buttonClick(true);
                 }
             });
 
             previousButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    previousButton();
+                    buttonClick(false);
                 }
             });
         }else{
@@ -155,42 +157,38 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
     }
 
+    public void buttonClick(boolean isNextButton){
+        int step;
+        if(isNextButton){
+            if (mCurrentStep == allSteps){
+                Toast.makeText(getContext(), "This is the last step!", Toast.LENGTH_SHORT).show();
+                return;
+            }else{
+               step = ++mCurrentStep;
+            }
+        }else{
+            if (mCurrentStep == 0){
+                Toast.makeText(getContext(), "This is the first step!", Toast.LENGTH_SHORT).show();
+                return;
+            }else{
+                step = --mCurrentStep;
+            }
+        }
+        mExoPlayer.stop();
+        Intent nextStepIntent = new Intent(getActivity(), VideoActivity.class);
+        nextStepIntent.putExtra("StepNumber", String.valueOf(step));
+        nextStepIntent.putExtra("StepsArray", mStepsArray);
+        getActivity().finish();
+        getActivity().overridePendingTransition(0, 0);
+        startActivity(nextStepIntent);
+        getActivity().overridePendingTransition(0, 0);
+    }
+
     private void releasePlayer() {
         mExoPlayer.stop();
         mExoPlayer.release();
         mExoPlayer = null;
     }
-
-    public void nextButton(){
-        if (mCurrentStep == allSteps){
-            Toast.makeText(getContext(), "This is the last step!", Toast.LENGTH_SHORT).show();
-        }else{
-            mExoPlayer.stop();
-            Intent nextStepIntent = new Intent(getActivity(), VideoActivity.class);
-            nextStepIntent.putExtra("StepNumber", String.valueOf(++mCurrentStep));
-            nextStepIntent.putExtra("StepsArray", mStepsArray);
-            getActivity().finish();
-            getActivity().overridePendingTransition(0, 0);
-            startActivity(nextStepIntent);
-            getActivity().overridePendingTransition(0, 0);
-        }
-    }
-
-    public void previousButton(){
-        if (mCurrentStep == 0){
-            Toast.makeText(getContext(), "This is the first step!", Toast.LENGTH_SHORT).show();
-        }else{
-            mExoPlayer.stop();
-            Intent nextStepIntent = new Intent(getActivity(), VideoActivity.class);
-            nextStepIntent.putExtra("StepNumber", String.valueOf(--mCurrentStep));
-            nextStepIntent.putExtra("StepsArray", mStepsArray);
-            getActivity().finish();
-            getActivity().overridePendingTransition(0, 0);
-            startActivity(nextStepIntent);
-            getActivity().overridePendingTransition(0, 0);
-        }
-    }
-
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
 
@@ -243,5 +241,11 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle currentState) {
+        currentState.putParcelableArrayList("steps_array", mStepsArray);
+        currentState.putInt("current_step", mCurrentStep);
     }
 }

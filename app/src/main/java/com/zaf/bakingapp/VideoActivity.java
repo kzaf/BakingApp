@@ -22,14 +22,15 @@ public class VideoActivity extends AppCompatActivity {
         stepsArrayList = getIntent().getParcelableArrayListExtra("StepsArray");
         stepNumber = Integer.parseInt(getIntent().getStringExtra("StepNumber"));
 
-        VideoFragment videoFragment = new VideoFragment();
+        if (savedInstanceState == null){
 
-        videoFragment.callVideoFragment(stepsArrayList, stepNumber, false);
+            VideoFragment videoFragment = new VideoFragment();
+            videoFragment.callVideoFragment(stepsArrayList, stepNumber, false);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.activity_video_frame, videoFragment)
+                    .commit();
+        }
 
-        fragmentManager.beginTransaction()
-                .add(R.id.activity_video_frame, videoFragment)
-                .commit();
     }
 }
