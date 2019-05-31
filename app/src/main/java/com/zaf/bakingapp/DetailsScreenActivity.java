@@ -58,27 +58,26 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
             isTablet = true;
 
             populateRecyclerViews();
-            populateVideoFragment(stepsArrayList, String.valueOf(stepsArrayList.get(0).getId()));
+            populateVideoFragment(stepsArrayList, String.valueOf(stepsArrayList.get(0).getId()), true);
 
         }
     }
 
-    private void populateVideoFragment(ArrayList<Steps> stepsArrayList, String stepIndex) {
+    private void populateVideoFragment(ArrayList<Steps> stepsArrayList, String stepIndex, boolean isFirstTime) {
 
-        hideButtonsWhenLargeScreen();
+        VideoFragment videoFragment = new VideoFragment();
 
-        getIntent().putExtra("StepsArray", stepsArrayList);
-        getIntent().putExtra("StepNumber", stepIndex);
+        videoFragment.callVideoFragment(stepsArrayList, Integer.parseInt(stepIndex), true);
 
-        mShortDescription = findViewById(R.id.video_short_description);
-        mDescription = findViewById(R.id.video_description);
-        mStepNumber = findViewById(R.id.step_number);
-
-        Steps selectedStep = stepsArrayList.get(stepsArrayList.get(Integer.parseInt(stepIndex)).getId());
-
-        mShortDescription.setText(selectedStep.getShortDescription());
-        mDescription.setText(selectedStep.getDescription());
-        mStepNumber.setText(selectedStep.getId() + "/" + (stepsArrayList.size() - 1));
+        if(isFirstTime){
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.videos_fragment_layout, videoFragment)
+                    .commit();
+        }else{
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.videos_fragment_layout, videoFragment)
+                    .commit();
+        }
 
     }
 
@@ -88,14 +87,6 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
 
         recyclerViewSteps.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewSteps.setAdapter(new StepsAdapter(this, stepsArrayList));
-    }
-
-    private void hideButtonsWhenLargeScreen() {
-        nextButton = findViewById(R.id.next_button);
-        previousButton = findViewById(R.id.previous_button);
-
-        nextButton.setVisibility(View.INVISIBLE);
-        previousButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -110,11 +101,8 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
 
         }else{// Tablet
 
-            populateVideoFragment(stepsArrayList, String.valueOf(item));
+            populateVideoFragment(stepsArrayList, String.valueOf(item), false);
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.videos_fragment_layout, new VideoFragment())
-                    .commit();
         }
 
     }

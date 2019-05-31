@@ -46,17 +46,11 @@ import java.util.ArrayList;
 public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
     private SimpleExoPlayer mExoPlayer;
-    private SimpleExoPlayerView mPlayerView;
-    private TextView mShortDescription;
-    private TextView mDescription;
-    private TextView mStepNumber;
-    private Dialog mFullScreenDialog;
-    private Button nextButton;
-    private Button previousButton;
-    private ArrayList<Steps> stepsArray;
-    private int currentStep;
+    private ArrayList<Steps> mStepsArray;
+    private int mCurrentStep;
     private int allSteps;
     private boolean isLandscape;
+    private boolean mIsLargeScreen;
 
     public VideoFragment() { }
 
@@ -66,92 +60,99 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
 
-        mPlayerView = rootView.findViewById(R.id.playerView);
-        mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video_poster));
+        final SimpleExoPlayerView PlayerView = rootView.findViewById(R.id.playerView);
+        PlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video_poster));
 
-        mShortDescription = rootView.findViewById(R.id.video_short_description);
-        mDescription = rootView.findViewById(R.id.video_description);
-        mStepNumber = rootView.findViewById(R.id.step_number);
+        final TextView ShortDescription = rootView.findViewById(R.id.video_short_description);
+        final TextView Description = rootView.findViewById(R.id.video_description);
+        final TextView StepNumber = rootView.findViewById(R.id.step_number);
 
-        nextButton = rootView.findViewById(R.id.next_button);
-        previousButton = rootView.findViewById(R.id.previous_button);
+        final Button NextButton = rootView.findViewById(R.id.next_button);
+        final Button PreviousButton = rootView.findViewById(R.id.previous_button);
 
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        if(mStepsArray != null){
+            Steps selectedStep = initializeFields(ShortDescription, Description, StepNumber);
+
+            initializeButtons(NextButton, PreviousButton);
+
+            if (mExoPlayer == null) {
+                initializePlayer(PlayerView, selectedStep);
+            }
+
+        }
 
         return rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private Steps initializeFields(TextView shortDescription, TextView description, TextView stepNumber) {
+        allSteps = mStepsArray.size() - 1;
 
-        initializeFields();
-        initializeButtonClickCallback();
+        Steps selectedStep = mStepsArray.get(mCurrentStep);
 
+        shortDescription.setText(selectedStep.getShortDescription());
+        description.setText(selectedStep.getDescription());
+        stepNumber.setText(selectedStep.getId() + "/" + allSteps);
+        return selectedStep;
     }
 
-    private void initializeButtonClickCallback() {
-        nextButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                nextButton();
-            }
-        });
+    private void initializeButtons(Button nextButton, Button previousButton) {
+        if(!mIsLargeScreen){
+            nextButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    nextButton();
+                }
+            });
 
-        previousButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                previousButton();
-            }
-        });
-    }
-
-    public void initializeFields() {
-
-        Intent intent = getActivity().getIntent();
-        stepsArray = intent.getParcelableArrayListExtra("StepsArray");
-        currentStep = Integer.parseInt(intent.getStringExtra("StepNumber"));
-
-        allSteps = stepsArray.size() - 1;
-
-        Steps selectedStep = stepsArray.get(currentStep);
-
-        mShortDescription.setText(selectedStep.getShortDescription());
-        mDescription.setText(selectedStep.getDescription());
-        mStepNumber.setText(selectedStep.getId() + "/" + allSteps);
-
-        initializePlayer(Uri.parse(selectedStep.getVideoURL()));
-    }
-
-    private void initializePlayer(Uri mediaUri) {
-        if (mExoPlayer == null) {
-
-            if (mediaUri == null){
-                Toast.makeText(getContext(), "This step has no video", Toast.LENGTH_SHORT).show();
-            }
-
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            LoadControl loadControl = new DefaultLoadControl();
-
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-            mPlayerView.setPlayer(mExoPlayer);
-
-            String userAgent = Util.getUserAgent(getContext(), "BakingVideo");
-
-            MediaSource mediaSource = new ExtractorMediaSource(
-                    mediaUri,
-                    new DefaultDataSourceFactory(getContext(), userAgent),
-                    new DefaultExtractorsFactory(),
-                    null,
-                    null);
-
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
-
-            if (isLandscape){
-                mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
-            }
+            previousButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    previousButton();
+                }
+            });
+        }else{
+            nextButton.setVisibility(View.INVISIBLE);
+            previousButton.setVisibility(View.INVISIBLE);
         }
+
+    }
+
+    private void initializePlayer(SimpleExoPlayerView playerView, Steps selectedStep) {
+        if (Uri.parse(selectedStep.getVideoURL()) == null){
+            Toast.makeText(getContext(), "This step has no video", Toast.LENGTH_SHORT).show();
+        }
+
+        TrackSelector trackSelector = new DefaultTrackSelector();
+        LoadControl loadControl = new DefaultLoadControl();
+
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
+        playerView.setPlayer(mExoPlayer);
+
+        String userAgent = Util.getUserAgent(getContext(), "BakingVideo");
+
+        MediaSource mediaSource = new ExtractorMediaSource(
+                Uri.parse(selectedStep.getVideoURL()),
+                new DefaultDataSourceFactory(getContext(), userAgent),
+                new DefaultExtractorsFactory(),
+                null,
+                null);
+
+        mExoPlayer.prepare(mediaSource);
+        mExoPlayer.setPlayWhenReady(true);
+
+        if (isLandscape){
+            playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+        }
+    }
+
+    public void callVideoFragment(ArrayList<Steps> stepsArray, int currentStep, boolean isLargeScreen) {
+
+        mStepsArray = stepsArray;
+        mCurrentStep = currentStep;
+        mIsLargeScreen = isLargeScreen;
+
     }
 
     private void releasePlayer() {
@@ -160,35 +161,29 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
         mExoPlayer = null;
     }
 
-    private void setPlayerFullHeight() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        mPlayerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height));
-    }
-
     public void nextButton(){
-        if (currentStep == allSteps){
+        if (mCurrentStep == allSteps){
             Toast.makeText(getContext(), "This is the last step!", Toast.LENGTH_SHORT).show();
         }else{
             mExoPlayer.stop();
             Intent nextStepIntent = new Intent(getActivity(), VideoActivity.class);
-            nextStepIntent.putExtra("StepNumber", String.valueOf(++currentStep));
-            nextStepIntent.putExtra("StepsArray", stepsArray);
+            nextStepIntent.putExtra("StepNumber", String.valueOf(++mCurrentStep));
+            nextStepIntent.putExtra("StepsArray", mStepsArray);
             getActivity().finish();
             getActivity().overridePendingTransition(0, 0);
             startActivity(nextStepIntent);
-            getActivity().overridePendingTransition(0, 0);        }
+            getActivity().overridePendingTransition(0, 0);
+        }
     }
 
     public void previousButton(){
-        if (currentStep == 0){
+        if (mCurrentStep == 0){
             Toast.makeText(getContext(), "This is the first step!", Toast.LENGTH_SHORT).show();
         }else{
             mExoPlayer.stop();
             Intent nextStepIntent = new Intent(getActivity(), VideoActivity.class);
-            nextStepIntent.putExtra("StepNumber", String.valueOf(--currentStep));
-            nextStepIntent.putExtra("StepsArray", stepsArray);
+            nextStepIntent.putExtra("StepNumber", String.valueOf(--mCurrentStep));
+            nextStepIntent.putExtra("StepsArray", mStepsArray);
             getActivity().finish();
             getActivity().overridePendingTransition(0, 0);
             startActivity(nextStepIntent);
