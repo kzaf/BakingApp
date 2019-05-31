@@ -21,13 +21,15 @@ import java.util.ArrayList;
 
 public class DetailsScreenActivity extends AppCompatActivity implements StepsAdapter.StepsAdapterListItemClickListener{
 
-    ArrayList<Ingredients> ingredientsArrayList;
-    ArrayList<Steps> stepsArrayList;
-    RecyclerView recyclerViewIngredients;
-    RecyclerView recyclerViewSteps;
+    private ArrayList<Ingredients> ingredientsArrayList;
+    private ArrayList<Steps> stepsArrayList;
+    private RecyclerView recyclerViewIngredients;
+    private RecyclerView recyclerViewSteps;
     private TextView mShortDescription;
     private TextView mDescription;
     private TextView mStepNumber;
+    private Button nextButton;
+    private Button previousButton;
 
     private boolean isTablet;
 
@@ -45,7 +47,7 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
         ingredientsArrayList = new ArrayList<>(selectedCake.getIngredients());
         stepsArrayList = new ArrayList<>(selectedCake.getSteps());
 
-        if (findViewById(R.id.videos_fragment) == null){ // Phone
+        if (findViewById(R.id.videos_fragment_layout) == null){ // Phone
 
             isTablet = false;
 
@@ -63,6 +65,8 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
 
     private void populateVideoFragment(ArrayList<Steps> stepsArrayList, String stepIndex) {
 
+        hideButtonsWhenLargeScreen();
+
         getIntent().putExtra("StepsArray", stepsArrayList);
         getIntent().putExtra("StepNumber", stepIndex);
 
@@ -70,13 +74,11 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
         mDescription = findViewById(R.id.video_description);
         mStepNumber = findViewById(R.id.step_number);
 
-        Steps selectedStep = stepsArrayList.get(stepsArrayList.get(0).getId());
+        Steps selectedStep = stepsArrayList.get(stepsArrayList.get(Integer.parseInt(stepIndex)).getId());
 
         mShortDescription.setText(selectedStep.getShortDescription());
         mDescription.setText(selectedStep.getDescription());
         mStepNumber.setText(selectedStep.getId() + "/" + (stepsArrayList.size() - 1));
-
-        hideButtonsWhenLargeScreen();
 
     }
 
@@ -89,8 +91,9 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
     }
 
     private void hideButtonsWhenLargeScreen() {
-        Button nextButton = findViewById(R.id.next_button);
-        Button previousButton = findViewById(R.id.previous_button);
+        nextButton = findViewById(R.id.next_button);
+        previousButton = findViewById(R.id.previous_button);
+
         nextButton.setVisibility(View.INVISIBLE);
         previousButton.setVisibility(View.INVISIBLE);
     }
@@ -98,20 +101,19 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
     @Override
     public void onListItemClick(int item) {
         if(!isTablet){// Phone
+
             Intent intent = new Intent(this, VideoActivity.class);
             intent.putExtra("StepsArray", stepsArrayList);
             intent.putExtra("StepNumber", String.valueOf(item));
 
             startActivity(intent);
-        }else{// Tablet
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            VideoFragment videoFragment = new VideoFragment();
+        }else{// Tablet
 
             populateVideoFragment(stepsArrayList, String.valueOf(item));
 
-            fragmentManager.beginTransaction()
-                    .replace(R.id.videos_fragment, videoFragment)
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.videos_fragment_layout, new VideoFragment())
                     .commit();
         }
 

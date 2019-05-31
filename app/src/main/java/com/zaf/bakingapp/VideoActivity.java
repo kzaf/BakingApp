@@ -12,5 +12,7 @@ public class VideoActivity extends AppCompatActivity {
 
         getIntent().putExtra("StepsArray", getIntent().getParcelableArrayListExtra("StepsArray"));
         getIntent().putExtra("StepNumber", getIntent().getStringExtra("StepNumber"));
+
+
     }
 }

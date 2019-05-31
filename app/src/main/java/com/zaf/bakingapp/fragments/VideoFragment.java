@@ -76,6 +76,21 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
         nextButton = rootView.findViewById(R.id.next_button);
         previousButton = rootView.findViewById(R.id.previous_button);
 
+        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        initializeFields();
+        initializeButtonClickCallback();
+
+    }
+
+    private void initializeButtonClickCallback() {
         nextButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -89,24 +104,13 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
                 previousButton();
             }
         });
-
-        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-
-        return rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void initializeFields() {
 
         Intent intent = getActivity().getIntent();
         stepsArray = intent.getParcelableArrayListExtra("StepsArray");
         currentStep = Integer.parseInt(intent.getStringExtra("StepNumber"));
-
-        initializeFields(stepsArray, currentStep);
-    }
-
-    public void initializeFields(ArrayList<Steps> stepsArray, int currentStep) {
 
         allSteps = stepsArray.size() - 1;
 
