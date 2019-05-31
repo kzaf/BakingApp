@@ -1,18 +1,30 @@
 package com.zaf.bakingapp.fragments;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,12 +54,19 @@ import java.util.ArrayList;
 
 public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
+    SimpleExoPlayerView PlayerView;
     private SimpleExoPlayer mExoPlayer;
     private ArrayList<Steps> mStepsArray;
     private int mCurrentStep;
     private int allSteps;
-    private boolean isLandscape;
     private boolean mIsLargeScreen;
+    Button NextButton;
+    Button PreviousButton;
+    TextView ShortDescription;
+    TextView Description;
+    TextView StepNumber;
+    CardView CardView;
+    Guideline HorizontalHalf;
 
     public VideoFragment() { }
 
@@ -62,17 +81,18 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
 
-        final SimpleExoPlayerView PlayerView = rootView.findViewById(R.id.playerView);
+        PlayerView = rootView.findViewById(R.id.playerView);
         PlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video_poster));
 
-        final TextView ShortDescription = rootView.findViewById(R.id.video_short_description);
-        final TextView Description = rootView.findViewById(R.id.video_description);
-        final TextView StepNumber = rootView.findViewById(R.id.step_number);
+        CardView = rootView.findViewById(R.id.cardView);
+        HorizontalHalf = rootView.findViewById(R.id.horizontalHalf);
 
-        final Button NextButton = rootView.findViewById(R.id.next_button);
-        final Button PreviousButton = rootView.findViewById(R.id.previous_button);
+        ShortDescription = rootView.findViewById(R.id.video_short_description);
+        Description = rootView.findViewById(R.id.video_description);
+        StepNumber = rootView.findViewById(R.id.step_number);
 
-        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        NextButton = rootView.findViewById(R.id.next_button);
+        PreviousButton = rootView.findViewById(R.id.previous_button);
 
         if(mStepsArray != null){
             Steps selectedStep = initializeFields(ShortDescription, Description, StepNumber);
@@ -87,6 +107,7 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
         return rootView;
     }
+
 
     private Steps initializeFields(TextView shortDescription, TextView description, TextView stepNumber) {
         allSteps = mStepsArray.size() - 1;
@@ -143,10 +164,6 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
         mExoPlayer.prepare(mediaSource);
         mExoPlayer.setPlayWhenReady(true);
-
-        if (isLandscape){
-            playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
-        }
     }
 
     public void callVideoFragment(ArrayList<Steps> stepsArray, int currentStep, boolean isLargeScreen) {
@@ -183,6 +200,45 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
         startActivity(nextStepIntent);
         getActivity().overridePendingTransition(0, 0);
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // This method is used to show video in fullscreen when device is rotated
+
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) PlayerView.getLayoutParams();
+        int visibility = View.VISIBLE;
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            visibility = View.GONE;
+            params.width= ViewGroup.LayoutParams.MATCH_PARENT;
+            params.height= ViewGroup.LayoutParams.MATCH_PARENT;
+            PlayerView.setLayoutParams(params);
+            if(((AppCompatActivity)getActivity()).getSupportActionBar()!=null) {
+                ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+            }
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE);
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            params.width= ViewGroup.LayoutParams.MATCH_PARENT;
+            params.height=600;
+            PlayerView.setLayoutParams(params);
+            if(((AppCompatActivity)getActivity()).getSupportActionBar()!=null) {
+                ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+            }
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+        NextButton.setVisibility(visibility);
+        PreviousButton.setVisibility(visibility);
+        ShortDescription.setVisibility(visibility);
+        Description.setVisibility(visibility);
+        StepNumber.setVisibility(visibility);
+        CardView.setVisibility(visibility);
+        HorizontalHalf.setVisibility(visibility);
+    }
+
+
 
     private void releasePlayer() {
         mExoPlayer.stop();

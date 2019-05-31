@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VideoActivity"></activity>
+        <activity android:name=".VideoActivity" android:configChanges="orientation|screenSize|keyboardHidden"></activity>
         <activity android:name=".DetailsScreenActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
