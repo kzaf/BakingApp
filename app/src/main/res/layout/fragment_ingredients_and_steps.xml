@@ -25,6 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:orientation="vertical"
+                android:padding="10sp"
                 android:weightSum="10">
 
                 <TextView
@@ -32,7 +33,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Ingredients" />
+                    android:paddingBottom="5sp"
+                    android:text="Ingredients"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/ingredients_recycler_view"
@@ -56,7 +60,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Steps" />
+                android:padding="5sp"
+                android:text="Steps"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/steps_recycler_view"

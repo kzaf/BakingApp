@@ -1,22 +1,15 @@
 package com.zaf.bakingapp.fragments;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -24,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +34,6 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
@@ -107,7 +98,6 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
         return rootView;
     }
-
 
     private Steps initializeFields(TextView shortDescription, TextView description, TextView stepNumber) {
         allSteps = mStepsArray.size() - 1;
@@ -237,8 +227,6 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
         CardView.setVisibility(visibility);
         HorizontalHalf.setVisibility(visibility);
     }
-
-
 
     private void releasePlayer() {
         mExoPlayer.stop();
