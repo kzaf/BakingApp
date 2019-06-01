@@ -16,6 +16,7 @@ import com.zaf.bakingapp.fragments.VideoFragment;
 import com.zaf.bakingapp.models.Cake;
 import com.zaf.bakingapp.models.Ingredients;
 import com.zaf.bakingapp.models.Steps;
+import com.zaf.bakingapp.widget.AppWidgetProvider;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
     private ArrayList<Steps> stepsArrayList;
     private RecyclerView recyclerViewIngredients;
     private RecyclerView recyclerViewSteps;
+    private Cake selectedCake;
 
     private boolean isTablet;
 
@@ -37,12 +39,14 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
         recyclerViewSteps = findViewById(R.id.steps_recycler_view);
 
         Intent intent = getIntent();
-        Cake selectedCake = intent.getParcelableExtra("Cake");
+        selectedCake = intent.getParcelableExtra("Cake");
 
         ingredientsArrayList = new ArrayList<>(selectedCake.getIngredients());
         stepsArrayList = new ArrayList<>(selectedCake.getSteps());
 
         populateRecyclerViews();
+
+        sendRecipeToWidget();
 
         if (findViewById(R.id.videos_fragment_layout) == null){ // Phone
             isTablet = false;
@@ -53,6 +57,14 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
             }
         }
     }
+
+    private void sendRecipeToWidget() {
+        Intent intent = new Intent(this, AppWidgetProvider.class);
+        intent.putExtra("WidgetSelectedCake", selectedCake);
+        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        sendBroadcast(intent);
+    }
+
 
     private void populateVideoFragment(ArrayList<Steps> stepsArrayList, String stepIndex, boolean isFirstTime) {
 
