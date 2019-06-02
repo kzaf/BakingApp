@@ -1,8 +1,10 @@
 package com.zaf.bakingapp;
 
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.rule.ActivityTestRule;
 
@@ -31,23 +33,19 @@ public class ExampleInstrumentedTest {
     @Before
     public void registerIdlingResource() {
         mIdlingResource = mActivityTestRule.getActivity().getIdlingResource();
-        Espresso.registerIdlingResources(mIdlingResource);
+        IdlingRegistry.getInstance().register(mIdlingResource);
     }
 
     @Test
-    public void testIntent() {
-        int RECYCLER_VIEW_FIRST_ITEM = 0;
-        String NUTELLA_PIE = "Nutella Pie";
-        String NUTELLA_PIE_STEP = "2. Prep the cookie crust.";
-        onView(withId(R.id.cakeListRecyclerView)).check(matches(hasDescendant(withText(NUTELLA_PIE))));
-        onView(withId(R.id.cakeListRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(RECYCLER_VIEW_FIRST_ITEM, click()));
-        onView(withText(NUTELLA_PIE_STEP)).check(matches(isDisplayed()));
+    public void onMainActivityRecipeClicked_RecipeActivityLaunch() {
+        onView(ViewMatchers.withId(R.id.cakeListRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(ViewMatchers.withId(R.id.ingredients_recycler_view)).check(matches(isDisplayed()));
     }
 
     @After
     public void unregisterIdlingResource() {
         if (mIdlingResource != null) {
-            Espresso.unregisterIdlingResources(mIdlingResource);
+            IdlingRegistry.getInstance().unregister(mIdlingResource);
         }
     }
 

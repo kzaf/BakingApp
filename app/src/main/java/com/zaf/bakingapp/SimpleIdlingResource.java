@@ -24,11 +24,11 @@ public class SimpleIdlingResource implements IdlingResource {
 
     @Override
     public void registerIdleTransitionCallback(ResourceCallback callback) {
-        mCallback = callback;
+        this.mCallback = callback;
     }
 
     public void setIdleState(boolean isIdleNow) {
-        mIsIdleNow.set(isIdleNow);
+        this.mIsIdleNow.set(isIdleNow);
         ResourceCallback callback = this.mCallback;
         if (isIdleNow && callback != null) {
             callback.onTransitionToIdle();
