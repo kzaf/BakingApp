@@ -39,7 +39,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void onMainActivityRecipeClicked_RecipeActivityLaunch() {
         onView(ViewMatchers.withId(R.id.cakeListRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(ViewMatchers.withId(R.id.ingredients_recycler_view)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.ingredients_card_view)).check(matches(isDisplayed()));
     }
 
     @After
