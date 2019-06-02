@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -36,6 +40,18 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
     TextView mErrorDisplay;
     private ArrayList<Cake> cakeList;
 
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +62,17 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
         progressDialog.setMessage("Loading ingredients....");
         progressDialog.show();
 
-        /*Create handle for the RetrofitInstance interface*/
+        fetchCakes();
+    }
+
+    private void fetchCakes() {
+        mIdlingResource.setIdleState(false); // for espresso testing
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<Cake>> call = service.getAllCakes();
         call.enqueue(new Callback<List<Cake>>() {
             @Override
             public void onResponse(Call<List<Cake>> call, Response<List<Cake>> response) {
+                mIdlingResource.setIdleState(true); // for espresso testing
                 progressDialog.dismiss();
                 generateCakeList(response.body());
                 if (response.body() != null) {
@@ -61,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
 
             @Override
             public void onFailure(Call<List<Cake>> call, Throwable t) {
+                mIdlingResource.setIdleState(true); // for espresso testing
                 progressDialog.dismiss();
                 mErrorDisplay.setText("Something went wrong...Please try again!");
                 Toast.makeText(MainActivity.this, "Something went wrong...Please try again!", Toast.LENGTH_SHORT).show();
