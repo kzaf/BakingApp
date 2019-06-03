@@ -23,7 +23,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class MainActivityClickTest {
+
+    // Test the RecyclerView click event in MainActivity
 
     private IdlingResource mIdlingResource;
 
@@ -37,7 +39,7 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void onMainActivityRecipeClicked_RecipeActivityLaunch() {
+    public void onMainActivityCakeClicked_DetailsActivityLaunch() {
         onView(ViewMatchers.withId(R.id.cakeListRecyclerView)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(ViewMatchers.withId(R.id.ingredients_card_view)).check(matches(isDisplayed()));
     }

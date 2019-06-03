@@ -27,6 +27,7 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
     private RecyclerView recyclerViewIngredients;
     private RecyclerView recyclerViewSteps;
     private Cake selectedCake;
+    private String cakeName;
 
     private boolean isTablet;
 
@@ -44,7 +45,9 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
         ingredientsArrayList = new ArrayList<>(selectedCake.getIngredients());
         stepsArrayList = new ArrayList<>(selectedCake.getSteps());
 
-        populateRecyclerViews();
+        cakeName = selectedCake.getName();
+
+        populateViews();
 
         sendRecipeToWidget();
 
@@ -83,7 +86,10 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
 
     }
 
-    private void populateRecyclerViews() {
+    private void populateViews() {
+
+        setTitle(cakeName);
+
         recyclerViewIngredients.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewIngredients.setAdapter(new IngredientsAdapter(ingredientsArrayList));
 
