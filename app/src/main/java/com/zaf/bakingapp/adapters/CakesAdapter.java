@@ -13,6 +13,9 @@ import com.zaf.bakingapp.models.Cake;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CakesAdapter extends RecyclerView.Adapter<CakesAdapter.CakesViewHolder>  {
 
     final private CakesAdapterListItemClickListener mOnClickListener;
@@ -62,15 +65,15 @@ public class CakesAdapter extends RecyclerView.Adapter<CakesAdapter.CakesViewHol
 
     public class CakesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private final ImageView mCakePoster;
-        private final TextView mCakeName;
+        @BindView(R.id.cakeCardImage)
+        ImageView mCakePoster;
+        @BindView(R.id.cakeCardName)
+        TextView mCakeName;
 
         private CakesViewHolder(View itemView) {
             super(itemView);
 
-            mCakePoster = itemView.findViewById(R.id.cakeCardImage);
-            mCakeName = itemView.findViewById(R.id.cakeCardName);
-
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 

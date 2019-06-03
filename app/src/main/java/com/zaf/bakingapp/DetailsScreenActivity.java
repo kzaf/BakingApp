@@ -20,14 +20,19 @@ import com.zaf.bakingapp.widget.AppWidgetProvider;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailsScreenActivity extends AppCompatActivity implements StepsAdapter.StepsAdapterListItemClickListener{
 
     private ArrayList<Ingredients> ingredientsArrayList;
     private ArrayList<Steps> stepsArrayList;
-    private RecyclerView recyclerViewIngredients;
-    private RecyclerView recyclerViewSteps;
     private Cake selectedCake;
     private String cakeName;
+    @BindView(R.id.ingredients_recycler_view)
+    RecyclerView recyclerViewIngredients;
+    @BindView(R.id.steps_recycler_view)
+    RecyclerView recyclerViewSteps;
 
     private boolean isTablet;
 
@@ -36,8 +41,7 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_screen);
 
-        recyclerViewIngredients = findViewById(R.id.ingredients_recycler_view);
-        recyclerViewSteps = findViewById(R.id.steps_recycler_view);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         selectedCake = intent.getParcelableExtra("Cake");

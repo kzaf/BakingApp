@@ -3,4 +3,20 @@
     <string name="cake_image_card">Cake Image</string>
     <string name="cake_name_card">Cake Name</string>
     <string name="error_text_main_activity">An error occurred, please refresh</string>
+    <string name="toast_no_video_step">This step has no video</string>
+    <string name="toast_last_step">This is the last step!</string>
+    <string name="toast_first_step">This is the first step!</string>
+    <string name="toast_error_loading_video">There was an error loading the video, please try again</string>
+    <string name="widget_item_format">%1$d. %2$s, %3$s %4$s</string>
+    <string name="dialog_loading_message">Loading ingredients....</string>
+    <string name="error_display_message">Something went wrong...Please try again!</string>
+    <string name="ingredients_tv">Ingredients</string>
+    <string name="exo_player_video_description_text">Descrpition</string>
+    <string name="exo_player_button_text_previous">Previous</string>
+    <string name="exo_player_button_text_next">Next</string>
+    <string name="ingredients_item_measure_text">ingredient_measure</string>
+    <string name="ingredients_item_quantity_text">ingredient_quantity</string>
+    <string name="ingredients_item_type_text">ingredient_type</string>
+    <string name="steps_item_short_description_text">short description</string>
+    <string name="widget_cake_name_text">Cake name</string>
 </resources>

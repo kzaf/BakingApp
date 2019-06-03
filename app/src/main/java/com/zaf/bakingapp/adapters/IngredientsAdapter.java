@@ -5,13 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zaf.bakingapp.R;
 import com.zaf.bakingapp.models.Ingredients;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.IngredientsViewHolder> {
 
@@ -43,16 +45,17 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     public class IngredientsViewHolder extends RecyclerView.ViewHolder{
 
-        private final TextView mIngredientQuantity;
-        private final TextView mIngredientMeasure;
-        private final TextView mIngredientType;
+        @BindView(R.id.ingredient_quantity)
+        TextView mIngredientQuantity;
+        @BindView(R.id.ingredient_measure)
+        TextView mIngredientMeasure;
+        @BindView(R.id.ingredient_type)
+        TextView mIngredientType;
 
         private IngredientsViewHolder(View itemView) {
             super(itemView);
 
-            mIngredientQuantity = itemView.findViewById(R.id.ingredient_quantity);
-            mIngredientMeasure = itemView.findViewById(R.id.ingredient_measure);
-            mIngredientType = itemView.findViewById(R.id.ingredient_type);
+            ButterKnife.bind(this, itemView);
         }
 
     }

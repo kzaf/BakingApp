@@ -9,8 +9,8 @@
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/playerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/exo_player_layout_dimensions"
+        android:layout_height="@dimen/exo_player_layout_dimensions"
         app:layout_constraintBottom_toTopOf="@+id/horizontalHalf"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -31,17 +31,15 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="@dimen/exo_player_card_descriptions_margin"
+        android:layout_marginLeft="@dimen/exo_player_card_descriptions_margin"
+        android:layout_marginTop="@dimen/exo_player_card_descriptions_margin"
+        android:layout_marginEnd="@dimen/exo_player_card_descriptions_margin"
+        android:layout_marginRight="@dimen/exo_player_card_descriptions_margin"
         app:layout_constraintBottom_toTopOf="@+id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/horizontalHalf">
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,9 +50,9 @@
                     android:id="@+id/video_short_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5sp"
+                    android:padding="@dimen/exo_player_short_description_padding"
                     android:text="Short Description"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/exo_player_short_description_text_size"
                     android:textStyle="bold" />
 
                 <ScrollView
@@ -65,9 +63,9 @@
                         android:id="@+id/video_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5sp"
-                        android:text="Descrpition"
-                        android:textSize="18sp"
+                        android:padding="@dimen/exo_player_video_description_padding"
+                        android:text="@string/exo_player_video_description_text"
+                        android:textSize="@dimen/exo_player_video_description_text_size"
                         android:textStyle="italic" />
 
                 </ScrollView>
@@ -81,12 +79,12 @@
         android:id="@+id/previous_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/exo_player_button_margin"
+        android:layout_marginLeft="@dimen/exo_player_button_margin"
+        android:layout_marginBottom="@dimen/exo_player_button_margin"
         android:background="@android:color/transparent"
         android:textColor="@color/colorAccent"
-        android:text="Previous"
+        android:text="@string/exo_player_button_text_previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -94,12 +92,12 @@
         android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/exo_player_button_margin"
+        android:layout_marginRight="@dimen/exo_player_button_margin"
+        android:layout_marginBottom="@dimen/exo_player_button_margin"
         android:background="@android:color/transparent"
         android:textColor="@color/colorAccent"
-        android:text="Next"
+        android:text="@string/exo_player_button_text_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -107,12 +105,12 @@
         android:id="@+id/step_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/exo_player_step_number_margin"
+        android:layout_marginLeft="@dimen/exo_player_step_number_margin"
+        android:layout_marginTop="@dimen/exo_player_step_number_margin"
+        android:layout_marginEnd="@dimen/exo_player_step_number_margin"
+        android:layout_marginRight="@dimen/exo_player_step_number_margin"
+        android:layout_marginBottom="@dimen/exo_player_step_number_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/next_button"
         app:layout_constraintStart_toEndOf="@+id/previous_button"

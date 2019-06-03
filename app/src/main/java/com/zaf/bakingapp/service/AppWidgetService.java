@@ -56,7 +56,7 @@ public class AppWidgetService extends RemoteViewsService {
             Ingredients ingredient = ingredientList.get(index);
 
             int position = index + 1;
-            String widgetItem = String.format("%1$d. %2$s, %3$s %4$s",
+            String widgetItem = String.format(mContext.getString(R.string.widget_item_format),
                             position,
                             ingredient.getIngredient(),
                             Double.toString(Double.parseDouble(ingredient.getQuantity())),

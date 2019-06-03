@@ -17,16 +17,16 @@
             android:id="@+id/ingredients_card_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8sp"
+            android:layout_margin="@dimen/ingredients_card_layout_margin"
             android:layout_weight="7"
-            app:cardCornerRadius="2dp">
+            app:cardCornerRadius="@dimen/ingredients_card_radius">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:orientation="vertical"
-                android:padding="10sp"
+                android:padding="@dimen/ingredients_linear_layout_padding"
                 android:weightSum="10">
 
                 <TextView
@@ -34,9 +34,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingBottom="5sp"
-                    android:text="Ingredients"
-                    android:textSize="18sp"
+                    android:paddingBottom="@dimen/ingredients_tv_padding_bottom"
+                    android:text="@string/ingredients_tv"
+                    android:textSize="@dimen/ingredients_tv_text_size"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
@@ -53,18 +53,18 @@
             android:id="@+id/steps_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8sp"
+            android:layout_margin="@dimen/steps_layout_margin"
             android:layout_weight="3"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/steps_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="5sp"
+                android:padding="@dimen/steps_label_padding"
                 android:text="Steps"
-                android:textSize="18sp"
+                android:textSize="@dimen/steps_label_text_size"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView

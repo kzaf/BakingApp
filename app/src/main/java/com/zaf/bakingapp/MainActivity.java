@@ -24,16 +24,20 @@ import com.zaf.bakingapp.network.RetrofitClientInstance;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements CakesAdapter.CakesAdapterListItemClickListener{
 
-    private static final String TAG = "Main Activity";
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
+    ArrayList<Cake> cakeList;
+    @BindView(R.id.tv_error_message_display)
     TextView mErrorDisplay;
-    private ArrayList<Cake> cakeList;
+    @BindView(R.id.cakeListRecyclerView)
+    RecyclerView recyclerView;
 
     @Nullable
     private SimpleIdlingResource mIdlingResource;
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
+
         initializeDialog();
         fetchCakes();
 
@@ -59,9 +65,8 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
     }
 
     private void initializeDialog() {
-        mErrorDisplay = findViewById(R.id.tv_error_message_display);
         progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setMessage("Loading ingredients....");
+        progressDialog.setMessage(getApplicationContext().getString(R.string.dialog_loading_message));
         progressDialog.show();
     }
 
@@ -87,9 +92,8 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
             @Override
             public void onFailure(Call<List<Cake>> call, Throwable t) {
                 progressDialog.dismiss();
-                mErrorDisplay.setText("Something went wrong...Please try again!");
-                Toast.makeText(MainActivity.this, "Something went wrong...Please try again!", Toast.LENGTH_SHORT).show();
-                Log.d(TAG, "Retrofit callback onFailure: " + t);
+                mErrorDisplay.setText(getApplicationContext().getString(R.string.error_display_message));
+                Toast.makeText(MainActivity.this, getApplicationContext().getString(R.string.error_display_message), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -97,14 +101,8 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
     /*Method to generate List of data using RecyclerView with custom adapter*/
     private void generateCakeList(List<Cake> cakeList) {
 
-        RecyclerView recyclerView = findViewById(R.id.cakeListRecyclerView);
-        CakesAdapter adapter = new CakesAdapter(this, cakeList);
-        RecyclerView.LayoutManager layoutManager;
-
-        layoutManager = new GridLayoutManager(MainActivity.this, calculateNoOfColumns(this));
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, calculateNoOfColumns(this)));
+        recyclerView.setAdapter(new CakesAdapter(this, cakeList));
     }
 
     public static int calculateNoOfColumns(Context context) {

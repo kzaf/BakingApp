@@ -43,20 +43,31 @@ import com.zaf.bakingapp.models.Steps;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
-    SimpleExoPlayerView PlayerView;
     private SimpleExoPlayer mExoPlayer;
     private ArrayList<Steps> mStepsArray;
     private int mCurrentStep;
     private int allSteps;
     private boolean mIsLargeScreen;
+    @BindView(R.id.playerView)
+    SimpleExoPlayerView PlayerView;
+    @BindView(R.id.next_button)
     Button NextButton;
+    @BindView(R.id.previous_button)
     Button PreviousButton;
+    @BindView(R.id.video_short_description)
     TextView ShortDescription;
+    @BindView(R.id.video_description)
     TextView Description;
+    @BindView(R.id.step_number)
     TextView StepNumber;
+    @BindView(R.id.cardView)
     CardView CardView;
+    @BindView(R.id.horizontalHalf)
     Guideline HorizontalHalf;
 
     public VideoFragment() { }
@@ -71,19 +82,9 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
         }
 
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
+        ButterKnife.bind(this, rootView);
 
-        PlayerView = rootView.findViewById(R.id.playerView);
         PlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.no_video_poster));
-
-        CardView = rootView.findViewById(R.id.cardView);
-        HorizontalHalf = rootView.findViewById(R.id.horizontalHalf);
-
-        ShortDescription = rootView.findViewById(R.id.video_short_description);
-        Description = rootView.findViewById(R.id.video_description);
-        StepNumber = rootView.findViewById(R.id.step_number);
-
-        NextButton = rootView.findViewById(R.id.next_button);
-        PreviousButton = rootView.findViewById(R.id.previous_button);
 
         if(mStepsArray != null){
             Steps selectedStep = initializeFields(ShortDescription, Description, StepNumber);
@@ -106,7 +107,7 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
         shortDescription.setText(selectedStep.getShortDescription());
         description.setText(selectedStep.getDescription());
-        stepNumber.setText(selectedStep.getId() + "/" + allSteps);
+        stepNumber.setText(new StringBuilder().append(selectedStep.getId()).append("/").append(allSteps).toString());
         return selectedStep;
     }
 
@@ -134,7 +135,7 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
     private void initializePlayer(SimpleExoPlayerView playerView, Steps selectedStep) {
         if (Uri.parse(selectedStep.getVideoURL()) == null){
-            Toast.makeText(getContext(), "This step has no video", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getContext().getString(R.string.toast_no_video_step), Toast.LENGTH_SHORT).show();
         }
 
         TrackSelector trackSelector = new DefaultTrackSelector();
@@ -168,14 +169,14 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
         int step;
         if(isNextButton){
             if (mCurrentStep == allSteps){
-                Toast.makeText(getContext(), "This is the last step!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getString(R.string.toast_last_step), Toast.LENGTH_SHORT).show();
                 return;
             }else{
                step = ++mCurrentStep;
             }
         }else{
             if (mCurrentStep == 0){
-                Toast.makeText(getContext(), "This is the first step!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getString(R.string.toast_first_step), Toast.LENGTH_SHORT).show();
                 return;
             }else{
                 step = --mCurrentStep;
@@ -250,16 +251,12 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        if ((playbackState == ExoPlayer.STATE_READY) && playWhenReady){
-            Log.d("LOG", "onPlayerStateChanged: play");
-        }else if ((playbackState == ExoPlayer.STATE_READY) && !playWhenReady){
-            Log.d("LOG", "onPlayerStateChanged: paused");
-        }
+
     }
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
-        Toast.makeText(getContext(), "There was an error loading the video, please try again", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getContext().getString(R.string.toast_error_loading_video), Toast.LENGTH_SHORT).show();
     }
 
     @Override

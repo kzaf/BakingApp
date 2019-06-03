@@ -13,6 +13,9 @@ import com.zaf.bakingapp.models.Steps;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder>  {
 
     final private StepsAdapterListItemClickListener mOnClickListener;
@@ -51,18 +54,18 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
 
     public class StepsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private final TextView mStepNumber;
-        private final TextView mStepDescriptionShort;
-        private final ImageView mStepHasVideo;
+        @BindView(R.id.step_number)
+        TextView mStepNumber;
+        @BindView(R.id.step_descrpition_short)
+        TextView mStepDescriptionShort;
+        @BindView(R.id.arrow_image_step)
+        ImageView mStepHasVideo;
 
 
         private StepsViewHolder(View itemView) {
             super(itemView);
 
-            mStepNumber = itemView.findViewById(R.id.step_number);
-            mStepDescriptionShort = itemView.findViewById(R.id.step_descrpition_short);
-            mStepHasVideo = itemView.findViewById(R.id.arrow_image_step);
-
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
