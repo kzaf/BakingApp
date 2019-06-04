@@ -12,7 +12,6 @@ import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,9 +93,7 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
             if (mExoPlayer == null) {
                 initializePlayer(PlayerView, selectedStep);
             }
-
         }
-
         return rootView;
     }
 
@@ -130,7 +127,6 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
             nextButton.setVisibility(View.INVISIBLE);
             previousButton.setVisibility(View.INVISIBLE);
         }
-
     }
 
     private void initializePlayer(SimpleExoPlayerView playerView, Steps selectedStep) {
@@ -195,9 +191,11 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        toggleVideoFullScreen(newConfig);
+    }
 
+    private void toggleVideoFullScreen(Configuration newConfig) {
         // This method is used to show video in fullscreen when device is rotated
-
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) PlayerView.getLayoutParams();
         int visibility = View.VISIBLE;
 
@@ -213,7 +211,7 @@ public class VideoFragment extends Fragment implements ExoPlayer.EventListener {
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
             params.width= ViewGroup.LayoutParams.MATCH_PARENT;
-            params.height=600;
+            params.height=ViewGroup.LayoutParams.WRAP_CONTENT;
             PlayerView.setLayoutParams(params);
             if(((AppCompatActivity)getActivity()).getSupportActionBar()!=null) {
                 ((AppCompatActivity)getActivity()).getSupportActionBar().show();

@@ -1,14 +1,12 @@
 package com.zaf.bakingapp;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.zaf.bakingapp.adapters.IngredientsAdapter;
 import com.zaf.bakingapp.adapters.StepsAdapter;
@@ -43,17 +41,13 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
 
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        selectedCake = intent.getParcelableExtra("Cake");
+        selectedCake = getIntent().getParcelableExtra("Cake");
 
         ingredientsArrayList = new ArrayList<>(selectedCake.getIngredients());
         stepsArrayList = new ArrayList<>(selectedCake.getSteps());
-
         cakeName = selectedCake.getName();
 
         populateViews();
-
-        sendRecipeToWidget();
 
         if (findViewById(R.id.videos_fragment_layout) == null){ // Phone
             isTablet = false;
@@ -74,10 +68,8 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
 
 
     private void populateVideoFragment(ArrayList<Steps> stepsArrayList, String stepIndex, boolean isFirstTime) {
-
         VideoFragment videoFragment = new VideoFragment();
         videoFragment.callVideoFragment(stepsArrayList, Integer.parseInt(stepIndex), true);
-
         if(isFirstTime){
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.videos_fragment_layout, videoFragment)
@@ -87,11 +79,9 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
                     .replace(R.id.videos_fragment_layout, videoFragment)
                     .commit();
         }
-
     }
 
     private void populateViews() {
-
         setTitle(cakeName);
 
         recyclerViewIngredients.setLayoutManager(new LinearLayoutManager(this));
@@ -104,18 +94,27 @@ public class DetailsScreenActivity extends AppCompatActivity implements StepsAda
     @Override
     public void onListItemClick(int item) {
         if(!isTablet){// Phone
-
             Intent intent = new Intent(this, VideoActivity.class);
             intent.putExtra("StepsArray", stepsArrayList);
             intent.putExtra("StepNumber", String.valueOf(item));
 
             startActivity(intent);
-
         }else{// Tablet
-
             populateVideoFragment(stepsArrayList, String.valueOf(item), false);
-
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.details_screen_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_item_add_to_widget){
+            sendRecipeToWidget();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

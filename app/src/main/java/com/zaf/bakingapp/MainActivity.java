@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements CakesAdapter.Cake
                     cakeList = new ArrayList<>(response.body());
                 }
             }
-
             @Override
             public void onFailure(Call<List<Cake>> call, Throwable t) {
                 progressDialog.dismiss();

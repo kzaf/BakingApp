@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.zaf.bakingapp.R;
 import com.zaf.bakingapp.models.Cake;
@@ -42,11 +43,13 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
 
         if (intent.hasExtra(SELECTED_CAKE)) {
-            Cake selectedCake = (Cake) intent.getParcelableExtra(SELECTED_CAKE);
+            Cake selectedCake = intent.getParcelableExtra(SELECTED_CAKE);
             cakeName = selectedCake.getName();
             ingredients = selectedCake.getIngredients();
+
+            Toast.makeText(context, cakeName + " " + context.getResources().getString(R.string.toast_added_to_widget), Toast.LENGTH_SHORT).show();
         } else {
-            cakeName = "No cake selected";
+            cakeName = context.getResources().getString(R.string.no_cake_selected_title_widget);
         }
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());

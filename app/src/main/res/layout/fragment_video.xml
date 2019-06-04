@@ -36,41 +36,42 @@
         android:layout_marginTop="@dimen/exo_player_card_descriptions_margin"
         android:layout_marginEnd="@dimen/exo_player_card_descriptions_margin"
         android:layout_marginRight="@dimen/exo_player_card_descriptions_margin"
+        app:cardBackgroundColor="#22E2AA00"
         app:layout_constraintBottom_toTopOf="@+id/next_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/horizontalHalf">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/video_short_description"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/exo_player_short_description_padding"
+                android:text="Short Description"
+                android:textSize="@dimen/exo_player_short_description_text_size"
+                android:textStyle="bold" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/video_short_description"
+                    android:id="@+id/video_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/exo_player_short_description_padding"
-                    android:text="Short Description"
-                    android:textSize="@dimen/exo_player_short_description_text_size"
-                    android:textStyle="bold" />
+                    android:padding="@dimen/exo_player_video_description_padding"
+                    android:text="@string/exo_player_video_description_text"
+                    android:textSize="@dimen/exo_player_video_description_text_size"
+                    android:textStyle="italic" />
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            </ScrollView>
 
-                    <TextView
-                        android:id="@+id/video_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/exo_player_video_description_padding"
-                        android:text="@string/exo_player_video_description_text"
-                        android:textSize="@dimen/exo_player_video_description_text_size"
-                        android:textStyle="italic" />
-
-                </ScrollView>
-
-            </LinearLayout>
+        </LinearLayout>
 
 
     </android.support.v7.widget.CardView>

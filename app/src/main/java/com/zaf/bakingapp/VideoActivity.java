@@ -1,7 +1,6 @@
 package com.zaf.bakingapp;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.zaf.bakingapp.fragments.VideoFragment;
@@ -11,16 +10,13 @@ import java.util.ArrayList;
 
 public class VideoActivity extends AppCompatActivity {
 
-    private ArrayList<Steps> stepsArrayList;
-    private int stepNumber;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        stepsArrayList = getIntent().getParcelableArrayListExtra("StepsArray");
-        stepNumber = Integer.parseInt(getIntent().getStringExtra("StepNumber"));
+        ArrayList<Steps> stepsArrayList = getIntent().getParcelableArrayListExtra("StepsArray");
+        int stepNumber = Integer.parseInt(getIntent().getStringExtra("StepNumber"));
 
         if (savedInstanceState == null){
 
@@ -31,6 +27,5 @@ public class VideoActivity extends AppCompatActivity {
                     .add(R.id.activity_video_frame, videoFragment)
                     .commit();
         }
-
     }
 }

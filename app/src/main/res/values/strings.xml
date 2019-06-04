@@ -19,4 +19,7 @@
     <string name="ingredients_item_type_text">ingredient_type</string>
     <string name="steps_item_short_description_text">short description</string>
     <string name="widget_cake_name_text">Cake name</string>
+    <string name="add_to_widget">Add to widget</string>
+    <string name="toast_added_to_widget">ingredients has been added to the widget!</string>
+    <string name="no_cake_selected_title_widget">No cake selected</string>
 </resources>
