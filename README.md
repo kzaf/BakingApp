@@ -5,7 +5,7 @@ Udacity Android Developer Nanodegree, project 3
  - App display recipes from provided network resource. [json file](https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json)
  - App Navigation. App navigaties between individual recipes and recipe steps.
  - Utilization of RecyclerView. App uses RecyclerView and handle recipe steps that include videos or images.
- - App conforms to common standards found in the Android [Nanodegree General Project Guidelines].(http://udacity.github.io/android-nanodegree-guidelines/core.html)
+ - App conforms to common standards found in the Android [Nanodegree General Project Guidelines.](http://udacity.github.io/android-nanodegree-guidelines/core.html)
 
 ## Components and Libraries
  - Application uses Master Detail Flow to display recipe steps and navigation between them.
