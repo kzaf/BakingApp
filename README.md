@@ -23,3 +23,6 @@ An android app to display
  - [Picasso](https://github.com/square/picasso)
  - [Gson](https://github.com/google/gson)
  - [ExoPlayer](https://github.com/google/ExoPlayer)
+
+## Screenshot
+![BeFunky-collage (1)](https://user-images.githubusercontent.com/11368889/59105147-fb145400-893b-11e9-9e40-c83eb04845a9.jpg)
