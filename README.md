@@ -2,10 +2,6 @@
 Udacity Android Developer Nanodegree, project 3
 An android app to display
 
-# Popular Movies 2
-Popular Movie Stage 2 for Udacity Android Nanodegree.     
-An Android app that shows the most popular movies from [The Movie DB](https://www.themoviedb.org/)
-
 ## General app usage
  - App display recipes from provided network resource. [json file](https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json)
  - App Navigation. App navigaties between individual recipes and recipe steps.
